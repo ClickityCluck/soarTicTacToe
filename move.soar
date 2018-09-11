@@ -1,0 +1,138 @@
+soar wait-snc on
+watch 1
+
+sp {elaborateTopState
+    (state <s> ^superstate nil
+               ^io.input-link.turn <turn>
+               ^io.input-link.winner <winner>
+               ^io.input-link.board <board>)
+-->
+    (<s> ^turn <turn>
+         ^winner <winner>
+         ^board <board>)}
+
+sp {propose*move*a0
+    (state <s> ^superstate nil
+               ^winner |_|
+               ^turn X
+               ^board.|a0|.val |_|)
+-->
+    (<s> ^operator <o> + =)
+    (<o> ^name move
+         ^action <mov>)
+    (<mov> ^name move
+           ^whereTo a0)}
+
+sp {propose*move*a1
+   (state <s> ^superstate nil
+              ^winner |_|
+              ^turn X
+              ^board.|a1|.val |_|)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name move
+        ^action <mov>)
+   (<mov> ^name move
+          ^whereTo a1)}
+
+sp {propose*move*a2
+    (state <s> ^superstate nil
+               ^winner |_|
+               ^turn X
+               ^board.|a2|.val |_|)
+-->
+    (<s> ^operator <o> + =)
+    (<o> ^name move
+         ^action <mov>)
+    (<mov> ^name move
+           ^whereTo a2)}
+
+sp {propose*move*b0
+   (state <s> ^superstate nil
+              ^winner |_|
+              ^turn X
+              ^board.|b0|.val |_|)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name move
+        ^action <mov>)
+   (<mov> ^name move
+          ^whereTo b0)}
+
+sp {propose*move*b1
+  (state <s> ^superstate nil
+             ^winner |_|
+             ^turn X
+             ^board.|b1|.val |_|)
+-->
+  (<s> ^operator <o> + =)
+  (<o> ^name move
+       ^action <mov>)
+  (<mov> ^name move
+         ^whereTo b1)}
+
+sp {propose*move*b2
+   (state <s> ^superstate nil
+              ^winner |_|
+              ^turn X
+              ^board.|b2|.val |_|)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name move
+        ^action <mov>)
+   (<mov> ^name move
+          ^whereTo b2)}
+
+sp {propose*move*c0
+    (state <s> ^superstate nil
+               ^winner |_|
+               ^turn X
+               ^board.|c0|.val |_|)
+-->
+    (<s> ^operator <o> + =)
+    (<o> ^name move
+         ^action <mov>)
+    (<mov> ^name move
+           ^whereTo c0)}
+
+sp {propose*move*c1
+   (state <s> ^superstate nil
+              ^winner |_|
+              ^turn X
+              ^board.|c1|.val |_|)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name move
+        ^action <mov>)
+   (<mov> ^name move
+          ^whereTo c1)}
+
+sp {propose*move*c2
+    (state <s> ^superstate nil
+               ^winner |_|
+               ^turn X
+               ^board.|c2|.val |_|)
+-->
+    (<s> ^operator <o> + =)
+    (<o> ^name move
+         ^action <mov>)
+    (<mov> ^name move
+           ^whereTo c2)}
+
+sp {apply*handleAction
+    (state <s> ^superstate nil
+               ^io.output-link <ol>
+               ^operator <o>)
+    (<o> ^action <act>)
+-->
+    (<ol> ^command <act>)}
+
+sp {apply*cleanup*output-link
+   (state <s> ^operator <o>
+              ^superstate nil
+              ^io.output-link <ol>)
+   (<ol> ^<cmd> <id>)
+   (<id> ^status)
+-->
+   (<ol> ^<cmd> <id> -)
+}
