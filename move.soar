@@ -1,5 +1,10 @@
 soar wait-snc on
 watch 1
+chunk always
+
+pushd "../Agents/default"
+source selection.soar
+popd
 
 sp {elaborateTopState
     (state <s> ^superstate nil
@@ -17,7 +22,7 @@ sp {propose*move*a0
                ^turn X
                ^board.|a0|.val |_|)
 -->
-    (<s> ^operator <o> + =)
+    (<s> ^operator <o> + )
     (<o> ^name move
          ^action <mov>)
     (<mov> ^name move
@@ -29,7 +34,7 @@ sp {propose*move*a1
               ^turn X
               ^board.|a1|.val |_|)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> + )
    (<o> ^name move
         ^action <mov>)
    (<mov> ^name move
@@ -41,7 +46,7 @@ sp {propose*move*a2
                ^turn X
                ^board.|a2|.val |_|)
 -->
-    (<s> ^operator <o> + =)
+    (<s> ^operator <o> + >)
     (<o> ^name move
          ^action <mov>)
     (<mov> ^name move
@@ -53,7 +58,7 @@ sp {propose*move*b0
               ^turn X
               ^board.|b0|.val |_|)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> + )
    (<o> ^name move
         ^action <mov>)
    (<mov> ^name move
@@ -65,7 +70,7 @@ sp {propose*move*b1
              ^turn X
              ^board.|b1|.val |_|)
 -->
-  (<s> ^operator <o> + =)
+  (<s> ^operator <o> + )
   (<o> ^name move
        ^action <mov>)
   (<mov> ^name move
@@ -77,7 +82,7 @@ sp {propose*move*b2
               ^turn X
               ^board.|b2|.val |_|)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> + )
    (<o> ^name move
         ^action <mov>)
    (<mov> ^name move
@@ -89,7 +94,7 @@ sp {propose*move*c0
                ^turn X
                ^board.|c0|.val |_|)
 -->
-    (<s> ^operator <o> + =)
+    (<s> ^operator <o> + )
     (<o> ^name move
          ^action <mov>)
     (<mov> ^name move
@@ -101,7 +106,7 @@ sp {propose*move*c1
               ^turn X
               ^board.|c1|.val |_|)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> + )
    (<o> ^name move
         ^action <mov>)
    (<mov> ^name move
@@ -113,7 +118,7 @@ sp {propose*move*c2
                ^turn X
                ^board.|c2|.val |_|)
 -->
-    (<s> ^operator <o> + =)
+    (<s> ^operator <o> + )
     (<o> ^name move
          ^action <mov>)
     (<mov> ^name move
@@ -135,4 +140,156 @@ sp {apply*cleanup*output-link
    (<id> ^status)
 -->
    (<ol> ^<cmd> <id> -)
+}
+
+sp {elaborate*problem-space
+   (state <s> ^superstate nil)
+-->
+   (<s> ^problem-space <p>)
+   (<p> ^name ticTacToe
+        ^default-state-copy yes
+        ^all-attributes-at-level two)}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val X
+         ^|a1|.val X
+         ^|a2|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|b0|.val X
+         ^|b1|.val X
+         ^|b2|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|c0|.val X
+         ^|c1|.val X
+         ^|c2|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val X
+         ^|b0|.val X
+         ^|c0|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a1|.val X
+         ^|b1|.val X
+         ^|c1|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a2|.val X
+         ^|b2|.val X
+         ^|c2|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val X
+         ^|b1|.val X
+         ^|c2|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*success
+    (state <s> ^board <b>)
+    (<b> ^|a2|.val X
+         ^|b1|.val X
+         ^|c0|.val X)
+-->
+    (<s> ^success <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val O
+         ^|a1|.val O
+         ^|a2|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|b0|.val O
+         ^|b1|.val O
+         ^|b2|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|c0|.val O
+         ^|c1|.val O
+         ^|c2|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val O
+         ^|b0|.val O
+         ^|c0|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a1|.val O
+         ^|b1|.val O
+         ^|c1|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a2|.val O
+         ^|b2|.val O
+         ^|c2|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a0|.val O
+         ^|b1|.val O
+         ^|c2|.val O)
+-->
+    (<s> ^failure <b>)
+}
+
+sp {detect*failure
+    (state <s> ^board <b>)
+    (<b> ^|a2|.val O
+         ^|b1|.val O
+         ^|c0|.val O)
+-->
+    (<s> ^failure <b>)
 }

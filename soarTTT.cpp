@@ -51,8 +51,19 @@ void outputEventHandler(smlRunEventId id, void* user_data, Agent* agent, smlPhas
   auto* ol = agent->GetOutputLink();
 
   int newOut = ol->GetNumberChildren();
-  cout << agent->GetCommand(0)->GetCommandName() << endl;
+
+  auto* Command = ol->FindByAttribute("command", 0)->ConvertToIdentifier();
+
+  auto* name = Command->GetParameterValue("name");
+
+  // cout << name << endl;
+
   if(newOut > 0){
+
+    
+    cout << "newOut#: " << newOut << endl;
+    cout << agent->ExecuteCommandLine("p I3 -d 3") << endl;
+
     auto* Command = ol->FindByAttribute("command", 0)->ConvertToIdentifier();
 
     auto* whereTo = Command->GetParameterValue("whereTo");
@@ -98,12 +109,8 @@ void outputEventHandler(smlRunEventId id, void* user_data, Agent* agent, smlPhas
       move.y = 2;
     }
 
-    cout << move.player << endl;
-    cout << move.x << endl;
-    cout << move.y << endl;
-
     ttt_make_move(player->connection, move);
-    cin.get();
+    // cin.get();
 
     Command->AddStatusComplete();
     agent->Commit();
@@ -124,10 +131,10 @@ Player::Player(ttt_t* apiHandle){
   connection = apiHandle;
   auto* initialState = ttt_get_state(connection);
   kernel = Kernel::CreateKernelInNewThread(20000);
-  // kernel = Kernel::CreateKernelInCurrentThread();
+
   agent = kernel->CreateAgent("soarPlayer");
-  // agent->SpawnDebugger(20000, "/home/ztyree/Soar/out/SoarJavaDebugger.jar");
-  agent->LoadProductions("/home/ztyree/Documents/ticTacToe/move.soar");
+
+  agent->LoadProductions("/home/ztyree/Documents/soarTicTacToe/move.soar");
   auto* il = agent->GetInputLink();
 
   turn = agent->CreateStringWME(il, "turn", Converter(initialState->turn));
@@ -162,8 +169,8 @@ Player::Player(ttt_t* apiHandle){
                                                 outputEventHandler, this);
   auto tokenPrint = agent->RegisterForPrintEvent(smlEVENT_PRINT,
                                                  printEventHandler, this);
-  auto tokenEcho = agent->RegisterForPrintEvent(smlEVENT_ECHO,
-                                                printEventHandler, this);
+  // auto tokenEcho = agent->RegisterForPrintEvent(smlEVENT_ECHO,
+  //                                               printEventHandler, this);
 
   agent->Commit();
 

@@ -117,6 +117,7 @@ ttt_state_t *ttt_get_state(ttt_t *ttt) {
   char url[128];
   sprintf(url, "%s:%s/ttt/state", ttt->address, ttt->port);
   curl_easy_setopt(ttt->curl, CURLOPT_URL, url);
+  curl_easy_setopt(ttt->curl, CURLOPT_HTTPGET, 1);
   curl_easy_setopt(ttt->curl, CURLOPT_WRITEFUNCTION, &write_callback);
   curl_easy_setopt(ttt->curl, CURLOPT_WRITEDATA, &ttt->state);
   CURLcode res = curl_easy_perform(ttt->curl);
